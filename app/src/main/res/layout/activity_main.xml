@@ -1,172 +1,517 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_dark"
-    android:padding="32dp">
+    android:background="@drawable/bg_root_gradient"
+    android:paddingLeft="@dimen/overscan_horizontal"
+    android:paddingRight="@dimen/overscan_horizontal"
+    android:paddingTop="@dimen/overscan_vertical"
+    android:paddingBottom="@dimen/overscan_vertical"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
-    <!-- Header -->
+    <!-- ================= ВЕРХНЯЯ ПАНЕЛЬ ================= -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="20dp">
 
-        <TextView
+        <!-- Логотип-плашка -->
+        <FrameLayout
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/icon_circle_bg"
+            android:layout_marginEnd="14dp">
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_dev"
+                android:tint="@color/accent_cyan" />
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Salute DevHelper"
-            android:textColor="@color/text_white"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salute DevHelper"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SberOS / SaluteTV  ·  Отладка и сетевой доступ"
+                android:textColor="@color/text_muted"
+                android:textSize="@dimen/text_subtitle"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
 
-        <TextView
+        <!-- Статус-пилюля с индикатором -->
+        <LinearLayout
             android:id="@+id/tv_status_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="● Ready"
-            android:textColor="@color/accent_green"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/badge_status_green"
+            android:paddingLeft="14dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+            <View
+                android:id="@+id/status_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/shape_dot"
+                android:layout_marginEnd="8dp" />
+            <TextView
+                android:id="@+id/tv_status_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADB ONLINE"
+                android:textColor="@color/accent_green"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.03"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Main Content: 2 Columns -->
+    <!-- ================= ОСНОВНОЙ БЛОК: 2 КОЛОНКИ ================= -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-        <!-- Left Column: Device Info Cards -->
+        <!-- ЛЕВАЯ КОЛОНКА -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1.3"
             android:orientation="vertical"
-            android:layout_marginEnd="24dp">
+            android:layout_marginEnd="18dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
-            <!-- IP Card -->
+            <!-- Карточка IP -->
             <LinearLayout
+                android:id="@+id/card_ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:background="@drawable/card_bg_shape"
-                android:padding="20dp"
-                android:layout_marginBottom="16dp">
+                android:stateListAnimator="@animator/tv_focus_scale"
+                android:padding="@dimen/card_padding"
+                android:layout_marginBottom="14dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:nextFocusDown="@+id/card_adb_cmd"
+                android:nextFocusRight="@+id/btn_open_dev">
+
+                <FrameLayout
+                    android:layout_width="@dimen/icon_circle"
+                    android:layout_height="@dimen/icon_circle"
+                    android:background="@drawable/icon_circle_bg"
+                    android:layout_marginEnd="14dp">
+                    <ImageView
+                        android:layout_width="@dimen/icon_size"
+                        android:layout_height="@dimen/icon_size"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_network"
+                        android:tint="@color/accent_cyan" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="IP-АДРЕС В ЛОКАЛЬНОЙ СЕТИ"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_label"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.06" />
+                    <TextView
+                        android:id="@+id/tv_ip_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="192.168.0.127"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_ip"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="IP-АДРЕС В ЛОКАЛЬНОЙ СЕТИ"
-                    android:textColor="@color/text_muted"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_ip_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="192.168.x.x"
+                    android:background="@drawable/tag_pill_bg"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="IPv4"
                     android:textColor="@color/accent_cyan"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="6dp" />
+                    android:textSize="10sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Commands Card -->
+            <!-- Карточка терминала -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:background="@drawable/card_bg_shape"
-                android:padding="20dp">
+                android:padding="@dimen/card_padding"
+                android:clipChildren="false"
+                android:clipToPadding="false">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="КОМАНДЫ ДЛЯ ПОДКЛЮЧЕНИЯ С ПК"
-                    android:textColor="@color/text_muted"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_adb_cmd"
+                <!-- Шапка терминала -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="adb connect 192.168.x.x:5555"
-                    android:textColor="@color/text_white"
-                    android:textSize="18sp"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="12dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="КОМАНДЫ ДЛЯ ПОДКЛЮЧЕНИЯ С ПК"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_label"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.06" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tag_pill_bg"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="TERMINAL"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="10sp"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_ssh_cmd"
+                <!-- Команда 1: ADB -->
+                <LinearLayout
+                    android:id="@+id/card_adb_cmd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/row_height"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/terminal_cmd_selector"
+                    android:stateListAnimator="@animator/tv_focus_scale"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusUp="@+id/card_ip"
+                    android:nextFocusDown="@+id/card_ssh_cmd"
+                    android:nextFocusRight="@+id/btn_open_settings">
+
+                    <FrameLayout
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/icon_circle_bg"
+                        android:layout_marginEnd="10dp">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_terminal"
+                            android:tint="@color/accent_cyan" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tv_adb_cmd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="adb connect 192.168.0.127:5555"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:fontFamily="monospace"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OK · копировать"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_hint"
+                        android:fontFamily="monospace"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <!-- Команда 2: SSH -->
+                <LinearLayout
+                    android:id="@+id/card_ssh_cmd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/row_height"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/terminal_cmd_selector"
+                    android:stateListAnimator="@animator/tv_focus_scale"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusUp="@+id/card_adb_cmd"
+                    android:nextFocusRight="@+id/btn_refresh">
+
+                    <FrameLayout
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/icon_circle_bg"
+                        android:layout_marginEnd="10dp">
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_terminal"
+                            android:tint="@color/accent_green" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tv_ssh_cmd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="ssh admin@192.168.0.127 -p 2222"
+                        android:textColor="@color/text_primary"
+                        android:textSize="@dimen/text_body"
+                        android:fontFamily="monospace"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OK · копировать"
+                        android:textColor="@color/text_muted"
+                        android:textSize="@dimen/text_hint"
+                        android:fontFamily="monospace"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Нижняя панель статуса -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ssh admin@192.168.x.x -p 2222"
-                    android:textColor="@color/text_white"
-                    android:textSize="18sp"
-                    android:fontFamily="monospace"
-                    android:layout_marginTop="10dp" />
-
-                <TextView
-                    android:id="@+id/tv_ports_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Проверка портов ADB (5555) и SSH (2222)..."
-                    android:textColor="@color/accent_orange"
-                    android:textSize="15sp"
-                    android:layout_marginTop="16dp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:id="@+id/badge_adb_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tag_pill_bg"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="ADB :5555"
+                        android:textColor="@color/accent_cyan"
+                        android:textSize="11sp"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp" />
+                    <TextView
+                        android:id="@+id/badge_ssh_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/tag_pill_bg"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:text="SSH :2222"
+                        android:textColor="@color/accent_green"
+                        android:textSize="11sp"
+                        android:fontFamily="monospace"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="12dp" />
+                    <TextView
+                        android:id="@+id/tv_ports_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="ADB: Активен  |  SSH: Закрыт"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:singleLine="true"
+                        android:ellipsize="end" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Right Column: TV Remote Action Buttons -->
+        <!-- ПРАВАЯ КОЛОНКА -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:orientation="vertical">
+            android:layout_weight="0.85"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ДЕЙСТВИЯ"
+                android:textColor="@color/text_muted"
+                android:textSize="@dimen/text_label"
+                android:textStyle="bold"
+                android:letterSpacing="0.06"
+                android:layout_marginBottom="10dp" />
 
             <Button
                 android:id="@+id/btn_open_dev"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/row_height"
                 android:background="@drawable/btn_tv_selector"
-                android:text="⚡ Открыть режим разработчика"
-                android:textColor="@color/text_white"
-                android:textSize="16sp"
+                android:stateListAnimator="@animator/tv_focus_scale"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:text="Параметры разработчика"
+                android:drawableStart="@drawable/ic_dev"
+                android:drawableTint="@color/btn_text_color"
+                android:drawablePadding="12dp"
+                android:textAllCaps="false"
+                android:textColor="@color/btn_text_color"
+                android:textSize="@dimen/text_body"
                 android:textStyle="bold"
                 android:focusable="true"
+                android:nextFocusLeft="@+id/card_ip"
                 android:nextFocusDown="@+id/btn_open_settings"
-                android:layout_marginBottom="14dp" />
+                android:layout_marginBottom="10dp">
+                <requestFocus />
+            </Button>
 
             <Button
                 android:id="@+id/btn_open_settings"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/row_height"
                 android:background="@drawable/btn_tv_selector"
-                android:text="⚙ Все настройки Android TV"
-                android:textColor="@color/text_white"
-                android:textSize="16sp"
+                android:stateListAnimator="@animator/tv_focus_scale"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:text="Системные настройки"
+                android:drawableStart="@drawable/ic_settings"
+                android:drawableTint="@color/btn_text_color"
+                android:drawablePadding="12dp"
+                android:textAllCaps="false"
+                android:textColor="@color/btn_text_color"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold"
                 android:focusable="true"
                 android:nextFocusUp="@+id/btn_open_dev"
                 android:nextFocusDown="@+id/btn_refresh"
-                android:layout_marginBottom="14dp" />
+                android:nextFocusLeft="@+id/card_adb_cmd"
+                android:layout_marginBottom="10dp" />
 
             <Button
                 android:id="@+id/btn_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="@dimen/row_height"
                 android:background="@drawable/btn_tv_selector"
-                android:text="🔄 Обновить статус сети"
-                android:textColor="@color/text_white"
-                android:textSize="16sp"
+                android:stateListAnimator="@animator/tv_focus_scale"
+                android:gravity="start|center_vertical"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:text="Обновить сетевой статус"
+                android:drawableStart="@drawable/ic_refresh"
+                android:drawableTint="@color/btn_text_color"
+                android:drawablePadding="12dp"
+                android:textAllCaps="false"
+                android:textColor="@color/btn_text_color"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold"
                 android:focusable="true"
-                android:nextFocusUp="@+id/btn_open_settings" />
+                android:nextFocusUp="@+id/btn_open_settings"
+                android:nextFocusLeft="@+id/card_ssh_cmd" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/card_bg_shape"
+                android:padding="14dp">
+                <FrameLayout
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/icon_circle_bg"
+                    android:layout_marginEnd="12dp">
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_info"
+                        android:tint="@color/accent_cyan" />
+                </FrameLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="НАВИГАЦИЯ"
+                        android:textColor="@color/accent_cyan"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.06" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Стрелками пульта перейдите на нужный пункт. OK — копирует команду в буфер обмена."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="11.5sp"
+                        android:lineSpacingExtra="2dp"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

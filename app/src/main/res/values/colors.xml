@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Фон (градиент) -->
+    <color name="bg_grad_top">#0B0F1A</color>
+    <color name="bg_grad_bottom">#101828</color>
+
+    <!-- Поверхности карточек -->
+    <color name="card_bg">#121A2B</color>
+    <color name="card_bg_elevated">#1B2639</color>
+    <color name="card_border">#263149</color>
+
+    <!-- Терминал / теги -->
+    <color name="terminal_bg">#0E1522</color>
+    <color name="terminal_border">#212C40</color>
+    <color name="terminal_focus_bg">#17324A</color>
+
+    <!-- Иконки-кружки -->
+    <color name="icon_circle_bg">#1A2439</color>
+
+    <!-- Фокус пульта ДУ -->
+    <color name="btn_focus">#15314F</color>
+
+    <!-- Акценты -->
+    <color name="accent_cyan">#38BDF8</color>
+    <color name="accent_cyan_dim">#163348</color>
+    <color name="accent_green">#34D399</color>
+    <color name="accent_green_bg">#102A22</color>
+    <color name="accent_orange">#FBBF24</color>
+    <color name="accent_orange_bg">#2B2213</color>
+    <color name="accent_red">#F87171</color>
+    <color name="accent_red_bg">#2B1518</color>
+
+    <!-- Типографика -->
+    <color name="text_primary">#F8FAFC</color>
+    <color name="text_secondary">#AEBBD1</color>
+    <color name="text_muted">#5E6D85</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>
