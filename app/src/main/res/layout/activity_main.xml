@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark"
+    android:padding="32dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Salute DevHelper"
+            android:textColor="@color/text_white"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_status_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● Ready"
+            android:textColor="@color/accent_green"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Main Content: 2 Columns -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- Left Column: Device Info Cards -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:orientation="vertical"
+            android:layout_marginEnd="24dp">
+
+            <!-- IP Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/card_bg_shape"
+                android:padding="20dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IP-АДРЕС В ЛОКАЛЬНОЙ СЕТИ"
+                    android:textColor="@color/text_muted"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_ip_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="192.168.x.x"
+                    android:textColor="@color/accent_cyan"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="6dp" />
+            </LinearLayout>
+
+            <!-- Commands Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/card_bg_shape"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="КОМАНДЫ ДЛЯ ПОДКЛЮЧЕНИЯ С ПК"
+                    android:textColor="@color/text_muted"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_adb_cmd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="adb connect 192.168.x.x:5555"
+                    android:textColor="@color/text_white"
+                    android:textSize="18sp"
+                    android:fontFamily="monospace"
+                    android:layout_marginTop="12dp" />
+
+                <TextView
+                    android:id="@+id/tv_ssh_cmd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ssh admin@192.168.x.x -p 2222"
+                    android:textColor="@color/text_white"
+                    android:textSize="18sp"
+                    android:fontFamily="monospace"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/tv_ports_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Проверка портов ADB (5555) и SSH (2222)..."
+                    android:textColor="@color/accent_orange"
+                    android:textSize="15sp"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Right Column: TV Remote Action Buttons -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_open_dev"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/btn_tv_selector"
+                android:text="⚡ Открыть режим разработчика"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:focusable="true"
+                android:nextFocusDown="@+id/btn_open_settings"
+                android:layout_marginBottom="14dp" />
+
+            <Button
+                android:id="@+id/btn_open_settings"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/btn_tv_selector"
+                android:text="⚙ Все настройки Android TV"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:focusable="true"
+                android:nextFocusUp="@+id/btn_open_dev"
+                android:nextFocusDown="@+id/btn_refresh"
+                android:layout_marginBottom="14dp" />
+
+            <Button
+                android:id="@+id/btn_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@drawable/btn_tv_selector"
+                android:text="🔄 Обновить статус сети"
+                android:textColor="@color/text_white"
+                android:textSize="16sp"
+                android:focusable="true"
+                android:nextFocusUp="@+id/btn_open_settings" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
